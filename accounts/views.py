@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from .forms import RegisterForm
 from .models import Account
+from django.contrib.auth import authenticate,login as  auth_login
 
 # Activation  Account
 from django.core.mail import EmailMessage
@@ -14,7 +15,7 @@ from django.http import HttpResponse
 def register(request):
     
     if request.method == 'POST':
-        form=RegisterForm(request.post)
+        form=RegisterForm(request.POST)
         if form.is_valid():
             first_name=form.cleaned_data['first_name']
             last_name=form.cleaned_data['last_name']
@@ -46,4 +47,32 @@ def register(request):
     context={'form':form}
 
     return render(request,'accounts/register.html',context)
-    
+
+
+def login(request):
+    if request.method == 'POST':
+        email=request.POST['email']
+        password=request.POST['password']
+
+        user=authenticate(email=email,password=password)
+        if user is not None:
+            auth_login(request,user)
+        else:
+            return redirect('accounts:login')
+        
+    return render(request,'accounts/login.html')
+
+def activate(request,uidb64,token):
+    try:
+        uid=urlsafe_base64_decode(uidb64).decode()
+        # user=Account.objects.get(pk=uid)
+        user=Account._default_manager.get(pk=uid)
+    except(TypeError,ValueError,OverflowError,Account.DoesNotExist):
+        user=None
+    if user is not None and default_token_generator.check_token(user,token):
+
+        user.is_active=True
+        user.save()
+        return redirect('accounts:login')
+    else:
+        return redirect('accounts:register')

@@ -49,7 +49,7 @@ class Account(AbstractBaseUser):
     first_name=models.CharField(max_length=250)
     last_name=models.CharField(max_length=250)
     email=models.EmailField(max_length=100,unique=True)
-    user_name=models.CharField(max_length=100,unique=True)
+    username=models.CharField(max_length=100,unique=True)
     phone_number=models.CharField(max_length=50)
     country=models.CharField(max_length=2,choices=get_country(),default='US')
 
