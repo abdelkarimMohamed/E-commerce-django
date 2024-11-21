@@ -55,12 +55,17 @@ def login(request):
             email=request.POST['email']
             password=request.POST['password']
 
-            user=authenticate(email=email,password=password)
+            user=authenticate(request,email=email,password=password)
             if user is not None:
-                auth_login(request,user)
-                messages.success(request,'Login is successfully.')
+                # if user.is_active:
+                    auth_login(request,user)
+                    messages.success(request,'Login is successfully.')
+                    return redirect('store:home')
+                # else:
+                #     messages.error(request,'Your account is unactive.')
+
             else:
-                messages.error(request,'Invalid Login.')
+                messages.error(request,'Invalid Login credentials.')
                 return redirect('accounts:login')
 
     return render(request,'accounts/login.html')

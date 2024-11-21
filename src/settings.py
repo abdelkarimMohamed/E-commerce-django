@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     'crispy_bootstrap4',
+    'store',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -141,6 +142,10 @@ EMAIL_HOST_USER = 'abdelkarimmohamedali81@gmail.com'
 EMAIL_HOST_PASSWORD = 'blfy ynsi zvet kkvr'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
+AUTH_USER_MODEL='accounts.Account'
+AUTHENTICATION_BACKENDS={
+    'django.contrib.auth.backends.ModelBackend',
+}
 
 
 from django.contrib.messages import constants as messages
