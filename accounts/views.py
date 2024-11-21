@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
-from django.http import HttpResponse
+from django.contrib import messages
 
 def register(request):
     
@@ -51,15 +51,18 @@ def register(request):
 
 def login(request):
     if request.method == 'POST':
-        email=request.POST['email']
-        password=request.POST['password']
 
-        user=authenticate(email=email,password=password)
-        if user is not None:
-            auth_login(request,user)
-        else:
-            return redirect('accounts:login')
-        
+            email=request.POST['email']
+            password=request.POST['password']
+
+            user=authenticate(email=email,password=password)
+            if user is not None:
+                auth_login(request,user)
+                messages.success(request,'Login is successfully.')
+            else:
+                messages.error(request,'Invalid Login.')
+                return redirect('accounts:login')
+
     return render(request,'accounts/login.html')
 
 def activate(request,uidb64,token):
@@ -73,6 +76,10 @@ def activate(request,uidb64,token):
 
         user.is_active=True
         user.save()
+        messages.success(request,'Your Account Is Activated.')
+
         return redirect('accounts:login')
     else:
+        messages.error(request,'Your Account is not activate,Please Try Again.')
+
         return redirect('accounts:register')

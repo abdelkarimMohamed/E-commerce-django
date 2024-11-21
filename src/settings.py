@@ -140,3 +140,11 @@ EMAIL_USE_SSL=False
 EMAIL_HOST_USER = 'abdelkarimmohamedali81@gmail.com'
 EMAIL_HOST_PASSWORD = 'blfy ynsi zvet kkvr'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
