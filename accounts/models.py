@@ -23,13 +23,16 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, email, username, first_name, last_name, password):
+    def create_superuser(self, email, username, first_name, last_name,country,password):
 
         user=self.create_user(
             email=self.normalize_email(email),
             username=username,
             first_name=first_name,
             last_name=last_name,
+            country=country,
+            password=password,
+
         )
         user.is_admin=True
         user.is_active=True
@@ -58,18 +61,21 @@ class Account(AbstractBaseUser):
 
     is_active=models.BooleanField(default=False)
     is_staff=models.BooleanField(default=False)
+    is_admin=models.BooleanField(default=False)
     is_superadmin=models.BooleanField(default=False)
 
     USERNAME_FIELD='email'
-    REQUIRED_FIELDS=['first_name','last_name']
+    REQUIRED_FIELDS=['username','first_name','last_name','country']
 
     objects=MyAccountManager()
 
     def __str__(self):
         return self.email
     
-    def her_perm(self,perm,obj=None):  #check user if admin show dashboard inverse not show dashboard
-        return self.is_admin
+    def has_perm(self,perm,obj=None):  #check user if admin show dashboard inverse not show dashboard
+        return self.is_superadmin
     
     def has_module_perms(self,app_label): #show all apps to any admin in dashboard
         return True
+    
+ 
