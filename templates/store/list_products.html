@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Home {% endblock %}
+{% block title %} Products {% endblock %}
 
 {% block content %}
 {% include 'includes/alerts.html' %}
@@ -120,7 +120,8 @@
         </div>
         <div class="detail-box">
           <h5>
-            {{ product.name }}
+            <a href="{% url 'store:product_detail' product.slug %}">{{ product.name }}</a>
+            
           </h5>
           <div class="product_info">
             <h5>
