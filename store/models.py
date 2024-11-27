@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.urls import reverse
 
 class Category(models.Model):
 
@@ -15,6 +16,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_category_url(self):
+        
+        return reverse('store:products_by_category', args=[self.slug])
     
 
 class Product(models.Model):
@@ -47,3 +52,6 @@ class Product(models.Model):
             models.Index(fields=['name']),
             models.Index(fields=['-created_at']),
         ]
+    def get_product_url(self):
+        
+        return reverse('store:product_detail', args=[self.slug])
