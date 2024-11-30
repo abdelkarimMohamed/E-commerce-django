@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'store',
     'django.contrib.postgres',
+    'cart',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -161,3 +162,4 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
 
+CART_SESSION_ID='cart'
