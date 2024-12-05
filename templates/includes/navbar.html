@@ -34,6 +34,19 @@
               <span>
                 Cart
               </span>
+              {% with total_items=cart|length %}
+              {% if total_items > 0 %}
+                <small>
+                  <a href="{% url 'cart:cart_detail' %} ">
+                    {{ total_items }} items,
+                    ${{ cart.get_total_price }}
+                  </a>
+                </small>
+              {% else %}
+                <small>Your cart is empty.</small>
+              {% endif %}
+              {% endwith %}
+
             </a>
           </div>
         </div>
