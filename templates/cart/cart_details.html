@@ -23,6 +23,7 @@
                                     <th scope="col">Price</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Total</th>
+                                    <th scope="col">Remove</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,15 +32,27 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="{{ product.img.url }}" alt="Product Name" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                            <img src="{{ product.image.url }}" alt="Product Name" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
                                             {{ product.name }}
                                         </div>
                                     </td>
-                                    <td>${{ product.price }}</td>
+                                    <td>${{ item.price }}</td>
                                     <td>
-                                        {{ product.quantity }}
+                                      <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                        {% csrf_token %}
+                                        {{ item.update_quantity_form.quantity }}
+                                        {{ item.update_quantity_form.override }}
+                                        <input type="submit" value="Update" class="btn btn-warning">
+                                      </form>
                                     </td>
-                                    <td>${{ product.total_price }}</td>
+                                    <td>${{ item.total_price }}</td>
+                                    <td>
+                                      <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="submit" value="Remove" class="btn btn-danger">
+                                      </form>
+                                  </td>
+
                                 </tr>
                             {% endwith %}
                             {% endfor %}
