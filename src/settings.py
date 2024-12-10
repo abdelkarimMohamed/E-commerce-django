@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'store',
     'django.contrib.postgres',
     'cart',
+    'orders',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
