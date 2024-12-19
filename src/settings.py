@@ -151,6 +151,7 @@ EMAIL_USE_SSL=False
 EMAIL_HOST_USER = 'abdelkarimmohamedali81@gmail.com'
 EMAIL_HOST_PASSWORD = 'blfy ynsi zvet kkvr'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL='abdelkarimmohamedali81@gmail.com'
 
 AUTH_USER_MODEL='accounts.Account'
 AUTHENTICATION_BACKENDS={
