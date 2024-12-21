@@ -4,6 +4,7 @@ from .forms import OrderCreateForm
 from cart.cart import Cart
 from django.core.mail import send_mail
 from django.conf import settings
+from .tasks import send_emails
 
 def order_create(request):
     cart=Cart(request)
@@ -15,6 +16,8 @@ def order_create(request):
             for item in cart:
                 OrderItem.objects.create(order=order,product=item['product'],price=item['price'],quantity=item['quantity'])           
             cart.clear()
+            # order_id=order.order_id
+            # send_emails.delay(order_id)
             subject='Order Confimation'
             message=f'Your order ID: {order.order_id} has been created successfully. \n\n Orderdetails:\n'
             for item in cart:

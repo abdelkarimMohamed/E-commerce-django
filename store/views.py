@@ -2,6 +2,8 @@ from django.shortcuts import render,get_object_or_404
 from .models import Category,Product
 from django.contrib.postgres.search import SearchVector,SearchRank,SearchQuery
 from cart.forms import CartAddProductForm
+# from django.core.cache import cache
+
 
 def list_product(request,category_slug=None):
 
@@ -23,8 +25,12 @@ def list_product(request,category_slug=None):
 
 def product_detail(request,product_slug):
 
-
+    # cache_key=f'product_{product_slug}'
+    # product=cache.get(cache_key)
+    # if product is None:
     product=get_object_or_404(Product,slug=product_slug,status=Product.Status.AVAILABLE)
+        # cache.set(cache_key, product, timeout=60 * 30)
+
     cart_product_form=CartAddProductForm()
     context={
         'detail':product,
