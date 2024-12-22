@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="alert alert-success" role="alert">
+    <h1>Payment Successfull</h1>
+    Order <b>{{ order.order_id }}</b> has been paid successfully.
+  </div>
+{% endblock %}

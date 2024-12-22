@@ -18,7 +18,7 @@ class OrderPayForm(forms.ModelForm):
     
     def clean_pay_phone(self):
 
-        pay_phone=self.cleaned_date.get('pay_phone')
+        pay_phone=self.cleaned_data.get('pay_phone')
 
         if not pay_phone.isdigit():
             raise ValidationError('The Phone number Must contain only digit.')
