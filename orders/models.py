@@ -52,3 +52,16 @@ class OrderItem(models.Model):
     def get_cost(self):
 
         return self.price * self.quantity
+    
+
+class OrderPay(models.Model):
+    order=models.ForeignKey(Order,on_delete=models.CASCADE)
+    pay_phone=models.CharField(max_length=11)
+    pay_image=models.ImageField(upload_to='vodafone_cash')
+    created=models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering=['-created']
+    
+    def __str__(self):
+        return f'Payment for Order ID: {self.order.order_id}'
