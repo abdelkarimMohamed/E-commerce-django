@@ -5,6 +5,25 @@ from cart.cart import Cart
 from django.core.mail import send_mail
 from django.conf import settings
 from .tasks import send_emails
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.contrib.admin.views.decorators import staff_member_required
+import weasyprint
+import os
+
+
+@staff_member_required
+def admin_order_pdf(request,order_id):
+
+    order=get_object_or_404(Order,id=order_id)
+    html=render_to_string('orders/pdf.html',{'order':order})
+    response=HttpResponse(content_type='application/pdf')
+    response['Content-Disposition']=f'filename=order_{order.order_id}.pdf'
+    weasyprint.HTML(string=html).write_pdf(response)
+
+
+    return response
+
 
 def order_create(request):
     cart=Cart(request)
@@ -44,11 +63,11 @@ def order_pay_by_vodafone(request,order_id):
         if form.is_valid():
             
             order_pay=form.save(commit=False)
-            # order.paid=True
-            # order.save()
             # order_pay.paid=True
             order_pay.order=order
             order_pay.save()
+            order.paid=True
+            order.save()
             return redirect('orders:payment_success',order_id=order.id)
     else:
         form=OrderPayForm()
